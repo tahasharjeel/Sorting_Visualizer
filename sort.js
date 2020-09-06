@@ -10,7 +10,7 @@ let arraySize = 300;
 let mrrSize = 300;
 let scale = 0;
 
-let mSpeed = 300;
+let mSpeed = 1000;
 
 function setSize(s) {
 
@@ -52,7 +52,6 @@ function reset() {
   insertionSort = false;
   mSort = false;
   completed = false;
-  mSpeed = 1000;
   marr = [];
 
   for (let i = 0; i < arraySize; i++) {
@@ -129,15 +128,10 @@ function draw() {
 
   background("white");
 
-
   let slider = document.getElementById("myRange");
   slider.oninput = function() {
-    output.innerHTML = this.value;
-    if (mSort) {
-      mSpeed = 1000 - ((parseInt(this.value) - 1) * 10);
-    } else {
-      frameRate(parseInt(this.value));
-    }
+  output.innerHTML = this.value;
+  frameRate(parseInt(this.value));
   }
 
   let sliderSize = document.getElementById("size");
@@ -146,65 +140,62 @@ function draw() {
     setSize(parseInt(this.value));
   }
 
-  if (insertionSort) {
-    mSort = false;
-    if (x + 1 < arr.length) {
-      if (y >= 0 && arr[y].h <= key) {
-        arr[y + 1].color = arr[y].color;
-        arr[y + 1].h = arr[y].h;
-        y = y - 1;
-      } else {
-        arr[y + 1].color = keyColor;
-        arr[y + 1].h = key;
+if (insertionSort) {
+  if (x + 1 < arr.length) {
+    if (y >= 0 && arr[y].h <= key) {
+      arr[y + 1].color = arr[y].color;
+      arr[y + 1].h = arr[y].h;
+      y = y - 1;
+    } else {
+      arr[y + 1].color = keyColor;
+      arr[y + 1].h = key;
 
-        if (x + 1 != arr.length - 1) {
-          x++;
-        }
-        keyColor = arr[x + 1].color;
-        key = arr[x + 1].h;
-        y = x;
-      }
-    }
-  }
-
-  if (qSort) {
-    mSort = false;
-    quickSort(arr, 0, arr.length - 1);
-  }
-
-  if (bubbleSort) {
-    mSort = false;
-    if (x < arr.length) {
-      if (y < (arr.length - x - 1)) {
-        if (arr[y].h < arr[y + 1].h) {
-          tempC = arr[y].color;
-          temp = arr[y].h;
-          arr[y].color = arr[y + 1].color;
-          arr[y].h = arr[y + 1].h;
-          arr[y + 1].color = tempC;
-          arr[y + 1].h = temp;
-        }
-        y++;
-      } else {
-        y = 0;
+      if (x + 1 != arr.length - 1) {
         x++;
       }
+      keyColor = arr[x + 1].color;
+      key = arr[x + 1].h;
+      y = x;
     }
   }
+}
 
-  if (mSort) {
-    mergeSort(marr, 0, marr.length - 1);
-  }
+if (qSort) {
+  quickSort(arr, 0, arr.length - 1);
+}
 
-  if (mSort) {
-    for (let i = 0; i < marr.length; i++) {
-      marr[i].show();
-    }
-  } else {
-    for (let i = 0; i < arr.length; i++) {
-      arr[i].show();
+if (bubbleSort) {
+  if (x < arr.length) {
+    if (y < (arr.length - x - 1)) {
+      if (arr[y].h < arr[y + 1].h) {
+        tempC = arr[y].color;
+        temp = arr[y].h;
+        arr[y].color = arr[y + 1].color;
+        arr[y].h = arr[y + 1].h;
+        arr[y + 1].color = tempC;
+        arr[y + 1].h = temp;
+      }
+      y++;
+    } else {
+      y = 0;
+      x++;
     }
   }
+}
+
+if (mSort) {
+  mergeSort(marr, 0, marr.length - 1);
+}
+
+if (mSort) {
+  for (let i = 0; i < marr.length; i++) {
+    marr[i].show();
+  }
+} else {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].show();
+  }
+}
 
 }
 
@@ -307,17 +298,16 @@ function merge(marr, l, m, r) {
 async function mergeSort(marr, l, r) {
   if (l < r) {
     let m = floor((l + r) / 2);
-    console.log(mSpeed);
     var promise = new Promise((resolve, reject) => {
-      setTimeout(() => resolve(mergeSort(marr, l, m)), mSpeed)
+      setTimeout(() => resolve(mergeSort(marr, l, m)), 300)
     });
     var promise = new Promise((resolve, reject) => {
-      setTimeout(() => resolve(mergeSort(marr, m + 1, r)), mSpeed)
+      setTimeout(() => resolve(mergeSort(marr, m + 1, r)), 300)
     });
-
     var promise = new Promise((resolve, reject) => {
-      setTimeout(() => resolve(merge(marr, l, m, r)), mSpeed)
+      setTimeout(() => resolve(merge(marr, l, m, r)), 300)
     });
 
   }
 }
+
