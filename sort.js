@@ -10,7 +10,7 @@ let arraySize = 300;
 let mrrSize = 300;
 let scale = 0;
 
-let mSpeed = 1000;
+let mSpeed = 300;
 
 function setSize(s) {
 
